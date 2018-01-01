@@ -1,0 +1,61 @@
+.splash .splashBut{margin:150px 0px 0px 0px;text-align:right;}
+.splash .splashBut .splashLogo{height:100px; width:100px;}
+.splash .splashFB{height:484px;width:329px;}
+
+.divTBar{height:92px;margin:15px 0px 0px 0px;} 
+.divTBar IMG{height:100px; width:100px;}
+
+.divPlayerBio{width:57%;height:398px;background:url('../img/player-img-bg-lg.png') no-repeat top center;}
+.divPlayerBio IMG{height:309px;width:409px;}
+.divPlayerBio .tmlogo{float:right;height:75px;width:75px;}
+.divPlayerBio .tblhdShot{width:100%;height:100%;}
+.divPlayerBio .tblhdShot TD{vertical-align:bottom;}
+.divPlayerBio .tblBio{width:100%;position:relative;top:-400px;}
+.divPlayerBio .tblBio TBODY{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:14px;color:#FFF;}
+.divPlayerBio .tblBio TH{text-align:left;font-family:'helvetica';font-size:2.375em;color:#FFF;}
+.divPlayerBio .tblBio TD{padding:7px;}
+.divPlayerBio .tblBio .bioLbl{color:#649FE1;}
+.divPlayerBio .tblBio .rght{text-align:right;}
+.divPlayerBio .tblBio .midSizer{padding:30px;}
+.divPlayerBio .tblBio .bioResponse1{display:none;}
+
+.divPlayerStats{width:43%;height:398px;background:url('../img/stat-bg.png') repeat;padding-top:15px;margin-left:-1px;}
+.divPlayerStats TABLE{background-color:#323333;color:#FFF;}
+.divPlayerStats TABLE THEAD{background-color:#8c969c;font-weight:bold;}
+.table-striped > tbody > tr:nth-of-type(2n+1){background-color:#1C2126;}
+
+.footer{padding-bottom:20px;background:url('../img/footer.png') repeat;}
+.footer TABLE{color:#fff;margin-top:9px;}
+.footer TABLE .title{color:#649FE1;}
+.footer TABLE .tag{padding-right:15px;}
+.footer TABLE .tot{padding:5px;width:100%;-webkit-border-radius:10px;-moz-border-radius:10px;border-radius:10px;background-color:#000;}
+
+/* Extra Small Devices, Phones */ 
+@media only screen and (max-width : 480px) 
+{
+  .splash .splashBut{margin:10px 0px 0px 20px;text-align:justify;min-width:350px;}
+  .divPlayerBio{width:100%;}
+  .divPlayerBio .tblBio .bioResponse1{display:block;}
+  .divPlayerBio .tblBio .bioResponse2{display:none;}
+  .divPlayerStats{width:100%;}
+}
+/* Small Devices, Tablets */
+@media only screen and (max-width : 768px) 
+{
+  .splash .splashBut{margin:10px 0px 0px 20px;text-align:justify;min-width:350px;}
+  .divPlayerBio{width:100%;min-width:500px;}
+  .divPlayerBio .tblBio .midSizer{padding:16px;}
+  .center-block{margin-right:unset}
+  .divPlayerBio .tblBio .bioResponse1{display:block;}
+  .divPlayerBio .tblBio .bioResponse2{display:none;}
+  .divPlayerStats{width:100%;height:100%;padding-bottom:15px}
+  .footer TABLE .post{padding-right:21px;}
+}
+/* Medium Devices */
+@media only screen and (max-width : 992px) 
+{
+  .splash .splashBut{margin:10px 0px 0px 20px;text-align:justify;min-width:350px;}
+  .divPlayerBio{width:100%;}
+  .divPlayerStats{width:100%;}
+  .footer TABLE .post{padding-right:21px;}
+}

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="pps">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" contents="width=device-width, initial-scale=1">
+    <title>PPS | Player Profile System</title>
+
+    <script src="js/angular.min.js"</script>  
+    <script src="js/jquery-3.2.0.min.js"</script>
+    <script src="js/ui-bootstrap-tpls-2.5.0.min.js"></script>
+    <script src="js/ppsControllers.js"></script>
+    <script src="js/ppsUtility.js"></script>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/pps.css" rel="stylesheet">
+
+  </head>
+  <body>
+
+    <!---SPLASH SCREEN CONTAINER/CONTROLLER--->
+    <div class="container splash" ng-show="isStart(playerid)" ng-controller="splashContCtrl">
+      <div class="row">
+        <div class="splashBut col-md-6" ng-controller="DropdownCtrl">
+          <!---APP IMAGE LOGO--->
+          <img class="splashLogo" src="img/logo.png" >
+          <!---BSTRAP DROPDOWN--->
+          <div class="btn-group" uib-dropdown is-open="status.isopen">
+            <button id="single-button" type="button" class="btn btn-primary" uib-dropdown-toggle ng-disabled="disabled">
+              Select Player <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+              <li role="menuitem"><a ng-click="dropboxitemselected('0')" href="#">Select Player</a></li>
+              <li role="menuitem" ng-repeat="x in players | orderBy: 'last_name'"><a ng-click="dropboxitemselected(x.player_id)" href="#">{{x.first_name + ' ' + x.last_name}}</a></li>
+            </ul>
+          </div>
+          <h2>Player Profile System</h2>
+        </div>
+        <div class="col-md-6">
+          <!---SPLASH FBPLAYER IMAGE--->
+          <img class="splashFB" src="img/splash.png" >
+        </div>
+      </div><!---END ROW--->
+    </div><!--- END SPLASH SCREEN CONTAINER/CONTROLLER--->
+
+
+
+    <!---PLAYER SCREEN CONTAINER/CONTROLLER--->    
+    <div class="container" ng-show="isPlayer(playerid)" ng-controller="playerContCtrl">
+
+      <!---TOOLBAR--->
+      <div class="row">
+        <div class="divTBar col-md-12" ng-controller="DropdownCtrl">
+          <!---APP IMAGE LOGO--->
+          <img src="img/logo.png">
+          <!---BSTRAP DROPDOWN--->
+          <div class="btn-group" uib-dropdown is-open="status.isopen">
+            <button id="single-button" type="button" class="btn btn-primary" uib-dropdown-toggle ng-disabled="disabled">
+              Select Player <span class="caret"></span>
+            </button>
+            <!---DROPDOWN WITH PLAYERS FROM CONTROLLER--->
+            <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+              <li role="menuitem"><a ng-click="dropboxitemselected('0')" href="#">Select Player</a></li>
+              <li role="menuitem" ng-repeat="x in players | orderBy: 'last_name'"><a ng-click="dropboxitemselected(x.player_id)" href="#">{{x.first_name + ' ' + x.last_name}}</a></li>
+            </ul>
+          </div>
+        </div>
+      </div><!---END TOOLBAR--->
+        
+      <!---PLAYER INFO BIO/STATS--->
+      <div class="row" ng-controller="playersInfoCtrl" >
+          <!---BIO(LEFT SIDE OF SCREEN)--->
+          <div class="divPlayerBio col-md-6">
+            <!---PLAYER IMAGE HEADSHOT TABLE-->
+            <table class="tblhdShot">
+              <tr><td><img class="img-responsive center-block" ng-src={{hdShot}} ></td></tr>
+            </table>
+            <!---PLAYER BIO INFO TABLE--->
+            <table class="tblBio" border="0">
+             <tbody>               
+                <tr>
+                  <td><h1>{{first_name}}&nbsp;{{last_name}}<h1></td>
+                  <td class="rght"><img class="img-responsive tmlogo" ng-src={{tmLogo}}></td>
+                </tr>
+                <tr>
+                  <td class="midSizer"><span class="bioLbl">Drafted By</span><br/>{{drafted_by}}</td>
+                  <td class="rght midSizer bioResponse2"><span class="bioLbl">Draft Type / Season</span><br/>{{draft_type}} / {{draft_season}}</td>
+                </tr>
+                <tr>
+                  <td class="midSizer"><span class="bioLbl">Date of Birth</span><br/>{{date_of_birth}}</td>
+                  <td class="rght midSizer bioResponse2"><span class="bioLbl">Draft Round / Pick</span><br/>{{draft_round}} / {{draft_pick}}</td>
+                </tr>
+                <tr class="bioResponse1">
+                  <td class="midSizer"><span class="bioLbl">Draft Type / Season</span><br/>{{draft_type}} / {{draft_season}}</td><td></td>
+                </tr>
+                <tr class="bioResponse1">
+                  <td class="midSizer"><span class="bioLbl">Draft Round / Pick</span><br/>{{draft_round}} / {{draft_pick}}</td><td></td>
+                </tr>
+             </tbody>  
+            </table>
+          </div><!---END BIO--->
+
+          <!---STATS(RIGHT SIDE OF SCREEN)--->
+          <div class="divPlayerStats table-responsive col-md-6">
+            <!---REGULAR SEASON TABLE--->
+            <table border="1" class="table table-striped ">
+              <thead>
+                <tr><td colspan="8">Regular Season</td></tr>
+                <tr>
+                  <td>Wk</td><td>Opp</td><td>Comp</td><td>Att</td><td>Yds</td><td>TD</td><td>Int</td><!---<td>home team</td><td>home team</td><td>away team</td>---><td>QBR</td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="x in arrPlayerStatsReg">
+                  <td>{{x.week}}</td>
+                  <!---TERNARY COMPARISON TO DETERMINE IF GAME IS HOME OR AWAY--->
+                  <td>{{x.on_home_team? x.away_team : '@'+ x.home_team}}</td>  
+                  <td>{{x.completions}}</td>
+                  <td>{{x.attempts}}</td>
+                  <td>{{x.yards}}</td>
+                  <td>{{x.touchdowns}}</td>
+                  <td>{{x.interceptions}}</td>
+                  <td>{{x.qbr}}</td>
+                </tr>
+              </tbody>
+            </table>
+            <br>
+            <!---POST SEASON TABLE--->
+            <table border="1" class="table table-striped ">
+             <thead>
+               <tr><td colspan="8">Post Season</td></tr>
+               <tr>
+                 <td>Wk</td><td>Opp</td><td>Comp</td><td>Att</td><td>Yds</td><td>TD</td><td>Int</td><!---<td>home team</td><td>home team</td><td>away team</td>---><td>QBR</td>
+               </tr>
+             </thead>
+             <tbody>
+               <tr ng-repeat="x in arrPlayerStatsPost">
+                 <td>{{x.week}}</td>
+                  <!---TERNARY COMPARISON TO DETERMINE IF GAME IS HOME OR AWAY--->
+                  <td>{{x.on_home_team? x.away_team : '@'+ x.home_team}}</td>  
+                  <td>{{x.completions}}</td>
+                  <td>{{x.attempts}}</td>
+                  <td>{{x.yards}}</td>
+                  <td>{{x.touchdowns}}</td>
+                  <td>{{x.interceptions}}</td>
+                  <td>{{x.qbr}}</td>
+               </tr>
+             </tbody>
+            </table>
+          </div><!---END STATS--->
+      </div><!---ROW END--->
+
+      <!---FOOTER--->
+     <div class="row footer">
+       <div class="col-md-6">
+         <!---REGULAR SEASON TOTALS--->
+         <table>
+           <tr>
+             <td class="title"><h4>Regular Season&nbsp;&nbsp;|&nbsp;&nbsp;</h4></td>
+             <td class="tag">Comp<br><div class="tot">{{compReg}}</div></td>
+             <td class="tag">Att<br><div class="tot">{{attReg}}</div></td>
+             <td class="tag">Yds<br><div class="tot">{{ydsReg}}</div></td>
+             <td class="tag">TD<br><div class="tot">{{tdReg}}</div></td>
+             <td class="tag">Int<br><div class="tot">{{intReg}}</div></td>
+             <td class="tag">QBR<br><div class="tot">{{qbrReg}}</div></td>
+           </tr>
+         </table>
+       </div>
+       <div class="col-md-6">
+         <!---POST SEASON TOTALS--->
+         <table>
+           <tr>
+             <td class="title post"><h4>Post Season&nbsp;&nbsp;&nbsp;</h4></td>
+             <td class="title"><h4>|&nbsp;&nbsp;</h4></td>
+             <td class="tag">Comp<br><div class="tot">{{compPost}}</div></td>
+             <td class="tag">Att<br><div class="tot">{{attPost}}</div></td>
+             <td class="tag">Yds<br><div class="tot">{{ydsPost}}</div></td>
+             <td class="tag">TD<br><div class="tot">{{tdPost}}</div></td>
+             <td class="tag">Int<br><div class="tot">{{intPost}}</div></td>
+             <td class="tag">QBR<br><div class="tot">{{qbrPost}}</div></td>
+           </tr>
+         </table>
+       </div>
+     </div><!---ROW END--->
+    </div><!---PLAYER SCREEN CONTAINER/CONTROLLER END--->
+
+  </body>
+</html>
